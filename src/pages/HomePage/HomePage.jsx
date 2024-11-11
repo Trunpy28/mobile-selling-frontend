@@ -1,5 +1,8 @@
 import { Carousel } from "antd";
-import React from "react";
+import productService from "../../services/productService";
+import { useEffect, useState } from "react";
+import ProductCard from "../../components/Card/ProductCard";
+import { FaApple } from "react-icons/fa";
 
 function HomePage() {
   const sliderItems = [
@@ -41,6 +44,22 @@ function HomePage() {
     },
   ];
 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await productService.getAllProducts();;
+      setProducts(res.products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+
   return (
     <div>
       <Carousel autoplay arrows>
@@ -52,6 +71,25 @@ function HomePage() {
           );
         })}
       </Carousel>
+      <div className="py-8 px-28">
+        <Carousel
+          slidesToShow={4}
+          slidesToScroll={4}
+          dots={false}
+          arrows
+          infinite
+        >
+          {
+            products.map((product) => {
+              return (
+                <div className="w-1/4 mx-4 py-3" key={product._id}>
+                  <ProductCard product={product} />
+                </div>
+              )
+            })
+          }
+        </Carousel>
+      </div>
     </div>
   );
 }
