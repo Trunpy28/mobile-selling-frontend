@@ -2,6 +2,7 @@ import { Carousel } from "antd";
 import productService from "../../services/productService";
 import { useEffect, useState } from "react";
 import ProductCard from "../../components/Card/ProductCard";
+import { FaApple } from "react-icons/fa";
 
 function HomePage() {
   const sliderItems = [
@@ -51,7 +52,7 @@ function HomePage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await productService.getAllProducts();
+      const res = await productService.getAllProducts();;
       setProducts(res.products);
     } catch (error) {
       console.error("Error fetching products:", error);

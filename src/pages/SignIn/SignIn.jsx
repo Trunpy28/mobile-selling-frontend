@@ -7,33 +7,34 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 
 function SignIn() {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const { mutate, data ,isPending, isSuccess, isError } = useMutation({
-		mutationFn: async ({email, password}) => {
-			await userService.signIn(email, password);
-		},
-		onSuccess: () => {
-			message.success("Đăng nhập thành công!", 3);
-		},
-		onError: (error) => {
-			message.error(error?.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.", 3);
-		}
-	})
+  const { mutate, data, isPending, isSuccess, isError } = useMutation({
+    mutationFn: async ({ email, password }) => {
+      await userService.signIn(email, password);
+    },
+    onSuccess: () => {
+      message.success("Đăng nhập thành công!", 3);
+      navigate("/");
+    },
+    onError: (error) => {
+      message.error(error?.response?.data?.message || "Đăng nhập thất bại! Vui lòng thử lại.", 3);
+    }
+  })
 
   const onFinish = (values) => {
     mutate(values);
   };
 
-	useEffect(() => {
+  useEffect(() => {
 
-	}, [isSuccess, isError])
+  }, [isSuccess, isError])
 
   return (
     <div className="bg-primary w-screen flex justify-center py-20">
-			<Loading isLoading={isPending}>
+      <Loading isLoading={isPending}>
         <div className="flex flex-col gap-4 rounded-3xl border-slate-300  justify-center p-20 bg-white">
-          <Title level={2} style={{textAlign: 'center'}}>Đăng nhập</Title>
+          <Title level={2} style={{ textAlign: 'center' }}>Đăng nhập</Title>
           <Form
             name="basic"
             labelCol={{
@@ -79,7 +80,7 @@ function SignIn() {
               <Input.Password />
             </Form.Item>
 
-            <Form.Item 
+            <Form.Item
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Button type="primary" htmlType="submit">
