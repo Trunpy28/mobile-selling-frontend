@@ -7,7 +7,6 @@ const SignUp = () => {
 
     const navigate = useNavigate();
     const onFinish = async (values) => {
-        console.log(values);
         const res = await userService.register(
             values.email,
             values.password,
