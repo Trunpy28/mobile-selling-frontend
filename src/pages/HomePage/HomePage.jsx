@@ -51,6 +51,10 @@ function HomePage() {
     },
   ];
 
+  const handleCardClick = (product) => {
+    navigate(`/product/product-details/${product._id}`);
+  };
+
   const { data: brands = [], isPending: isBrandPending } = useQuery({
     queryKey: ["brands"],
     queryFn: () => brandService.getAllBrands(),
@@ -119,7 +123,7 @@ function HomePage() {
                           className="w-1/4 mx-4 py-3 ml-10"
                           key={product._id}
                         >
-                          <ProductCard product={product} />
+                          <ProductCard product={product} handleCardClick={() => handleCardClick(product)} />
                         </div>
                       );
                     })}
