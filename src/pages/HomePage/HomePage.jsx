@@ -3,6 +3,7 @@ import productService from "../../services/productService";
 import { useEffect, useState } from "react";
 import ProductCard from "../../components/Card/ProductCard";
 import { FaApple } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const sliderItems = [
@@ -58,6 +59,12 @@ function HomePage() {
       console.error("Error fetching products:", error);
     }
   };
+  const navigate = useNavigate();
+
+  const handleCardClick = (product) => {
+    navigate(`/product/product-details/${product._id}`);
+  };
+
 
 
   return (
@@ -83,7 +90,7 @@ function HomePage() {
             products.map((product) => {
               return (
                 <div className="w-1/4 mx-4 py-3" key={product._id}>
-                  <ProductCard product={product} />
+                  <ProductCard product={product} handleCardClick={() => handleCardClick(product)} />
                 </div>
               )
             })

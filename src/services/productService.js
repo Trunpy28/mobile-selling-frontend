@@ -8,8 +8,8 @@ const productService = {
         return res.data;
     },
 
-    getProductById: async (id) => {
-        const URL_BACKEND = `${apiUrl}/product/id/${id}`;
+    getProductById: async (productId) => {
+        const URL_BACKEND = `${apiUrl}/product/product-details/${productId}`;
         const res = await axios.get(URL_BACKEND);
         return res.data;
     },

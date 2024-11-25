@@ -1,14 +1,17 @@
 import { Card } from 'antd';
 const ProductCard = (props) => {
 
-    const { product } = props;
+    const { product, handleCardClick } = props;
+
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat("vi-VN").format(amount);
     };
+
     return (
         <Card
             className="bg-[#323232] p-4 text-center transition-all duration-300 hover:shadow-md hover:shadow-neutral-400"
-            style={{ width: 280, border: "none", borderRadius: 20 }}
+            style={{ width: 280, border: "none", borderRadius: 20, cursor: "pointer" }}
+            onClick={handleCardClick}
             cover={
                 <div>
                     <img
