@@ -1,11 +1,17 @@
-import { Carousel } from "antd";
+import { Button, Carousel } from "antd";
 import productService from "../../services/productService";
 import { useEffect, useState } from "react";
 import ProductCard from "../../components/Card/ProductCard";
 import { FaApple } from "react-icons/fa";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import brandService from "../../services/brandService";
+import Loading from "../../components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
+import { CaretRightOutlined } from "@ant-design/icons";
 
 function HomePage() {
+  const navigate = useNavigate();
+
   const sliderItems = [
     {
       height: "480px",
@@ -45,27 +51,30 @@ function HomePage() {
     },
   ];
 
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const res = await productService.getAllProducts();;
-      setProducts(res.products);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    }
-  };
-  const navigate = useNavigate();
-
   const handleCardClick = (product) => {
     navigate(`/product/product-details/${product._id}`);
   };
 
+  const { data: brands = [], isPending: isBrandPending } = useQuery({
+    queryKey: ["brands"],
+    queryFn: () => brandService.getAllBrands(),
+    enabled: true,
+    keepPreviousData: true,
+    retry: 3,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
 
+  const productsOfBrandResults = useQueries({
+    queries: brands?.map((brand) => ({
+      queryKey: [brand?.name],
+      queryFn: () => productService.getProductsByBrand(brand?.name, 12),
+      enabled: true,
+      keepPreviousData: true,
+      retry: 3,
+      refetchOnWindowFocus: false,
+    })),
+  });
 
   return (
     <div>
@@ -79,23 +88,50 @@ function HomePage() {
         })}
       </Carousel>
       <div className="py-8 px-28">
-        <Carousel
-          slidesToShow={4}
-          slidesToScroll={4}
-          dots={false}
-          arrows
-          infinite
-        >
-          {
-            products.map((product) => {
-              return (
-                <div className="w-1/4 mx-4 py-3" key={product._id}>
-                  <ProductCard product={product} handleCardClick={() => handleCardClick(product)} />
-                </div>
-              )
-            })
-          }
-        </Carousel>
+        <div className="py-8 flex justify-center">
+          <Button
+            onClick={() => navigate("/products")}
+            className="!bg-neutral-800 !text-white !border !border-neutral-600 !rounded-lg flex items-center justify-center
+            hover:!border-white !hover:border-4 hover:shadow-[0_4px_12px_rgba(255,255,255,0.1)] transition duration-200 px-10 py-6 text-lg font-bold"
+          >
+            Tất cả sản phẩm <CaretRightOutlined />
+          </Button>
+        </div>
+        {brands?.map((brand, index) => {
+          return (
+            <div key={brand?.name} className="mb-20">
+              <div className="text-4xl font-bold text-white text-center mb-10">
+                {brand?.name}
+              </div>
+              <Loading
+                key={brand?.name}
+                isLoading={productsOfBrandResults[index].isPending}
+              >
+                <Carousel
+                  slidesToShow={4}
+                  slidesToScroll={4}
+                  dots={false}
+                  arrows
+                  infinite
+                  className="min-h-64"
+                >
+                  {productsOfBrandResults
+                    .at(index)
+                    ?.data?.products.map((product) => {
+                      return (
+                        <div
+                          className="w-1/4 mx-4 py-3 ml-10"
+                          key={product._id}
+                        >
+                          <ProductCard product={product} handleCardClick={() => handleCardClick(product)} />
+                        </div>
+                      );
+                    })}
+                </Carousel>
+              </Loading>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
