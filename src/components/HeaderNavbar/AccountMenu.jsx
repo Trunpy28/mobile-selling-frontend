@@ -1,56 +1,87 @@
-import { Avatar, Dropdown } from "antd";
+import { Avatar, Dropdown, message } from "antd";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { UserOutlined, ShoppingCartOutlined, LogoutOutlined, InfoCircleOutlined, UserAddOutlined, SettingOutlined, } from "@ant-design/icons";
+import {
+  UserOutlined,
+  ShoppingCartOutlined,
+  LogoutOutlined,
+  InfoCircleOutlined,
+  UserAddOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import { resetUser } from "../../redux/userStore";
+import userService from "../../services/userService";
 
 function AccountMenu() {
   const user = useSelector((state) => state.user);
-	const navigate = useNavigate();
-	
-	const userMenu = [
-		{
-			key: '1',
-			label: (
-				<span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
-					<InfoCircleOutlined className="text-blue-500 text-xl" />
-					<span>Thông tin tài khoản</span>
-				</span>
-			),
-		},
-		{
-			key: '2',
-			label: (
-				<span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
-					<ShoppingCartOutlined className="text-green-500 text-xl" />
-					<span>Đơn hàng của tôi</span>
-				</span>
-			),
-		},
-		...(user?.isAdmin
-			? [
-					{
-						key: '3',
-						label: (
-							<span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
-								<SettingOutlined className="text-orange-500 text-xl" />
-								<span>Quản lý hệ thống</span>
-							</span>
-						),
-					},
-				]
-			: []),
-		{
-			key: '4',
-			label: (
-				<span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
-					<LogoutOutlined className="text-red-500 text-xl" />
-					<span>Đăng xuất</span>
-				</span>
-			),
-		},
-	];
-		
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Xử lý đăng xuất
+  const handleLogout = async () => {
+    try {
+      await userService.signOut(); // Gọi API đăng xuất
+      localStorage.removeItem("access_token"); // Xóa token khỏi localStorage
+      dispatch(resetUser()); // Reset thông tin người dùng trong Redux
+      message.success("Đăng xuất thành công", 3);
+      navigate("/"); // Chuyển hướng về trang chủ
+    } catch (e) {
+      message.error("Đăng xuất thất bại", 3);
+    }
+  };
+
+  const userMenu = [
+    {
+      key: "1",
+      label: (
+        <span
+          className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
+          onClick={(e) => {
+            navigate("/user/profile");
+          }}
+        >
+          <InfoCircleOutlined className="text-blue-500 text-xl" />
+          <span>Thông tin tài khoản</span>
+        </span>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
+          <ShoppingCartOutlined className="text-green-500 text-xl" />
+          <span>Đơn hàng của tôi</span>
+        </span>
+      ),
+    },
+    ...(user?.isAdmin
+      ? [
+          {
+            key: "3",
+            label: (
+              <span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
+                <SettingOutlined className="text-orange-500 text-xl" />
+                <span>Quản lý hệ thống</span>
+              </span>
+            ),
+          },
+        ]
+      : []),
+    {
+      key: "4",
+      label: (
+        <span
+          className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
+          onClick={handleLogout}
+        >
+          <LogoutOutlined className="text-red-500 text-xl" />
+          <span>Đăng xuất</span>
+        </span>
+      ),
+    },
+  ];
+
   return (
     <div className="h-full flex items-center">
       {user?.accessToken ? (
@@ -58,7 +89,7 @@ function AccountMenu() {
           menu={{
             items: userMenu,
           }}
-					placement="bottomRight"
+          placement="bottomRight"
         >
           {user?.avatarUrl ? (
             <Avatar src={<img src={user?.avatarUrl} alt="avatar" />} />
