@@ -17,17 +17,16 @@ function AccountMenu() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   // Xử lý đăng xuất
   const handleLogout = async () => {
     try {
       await userService.signOut(); // Gọi API đăng xuất
       localStorage.removeItem("access_token"); // Xóa token khỏi localStorage
       dispatch(resetUser()); // Reset thông tin người dùng trong Redux
-      message.success("Đăng xuất thành công", 3);   
-      navigate('/'); // Chuyển hướng về trang chủ
-    }
-    catch(e) {
+      message.success("Đăng xuất thành công", 3);
+      navigate("/"); // Chuyển hướng về trang chủ
+    } catch (e) {
       message.error("Đăng xuất thất bại", 3);
     }
   };
@@ -36,7 +35,12 @@ function AccountMenu() {
     {
       key: "1",
       label: (
-        <span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2">
+        <span
+          className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
+          onClick={(e) => {
+            navigate("/user/profile");
+          }}
+        >
           <InfoCircleOutlined className="text-blue-500 text-xl" />
           <span>Thông tin tài khoản</span>
         </span>
@@ -67,7 +71,10 @@ function AccountMenu() {
     {
       key: "4",
       label: (
-        <span className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2" onClick={handleLogout}>
+        <span
+          className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
+          onClick={handleLogout}
+        >
           <LogoutOutlined className="text-red-500 text-xl" />
           <span>Đăng xuất</span>
         </span>

@@ -22,7 +22,6 @@ function App() {
 
   useEffect(() => {
     const accessToken = handleGetAccessToken();
-    console.log(accessToken);
     
     if (accessToken) {
       handleGetUserProfile(accessToken);

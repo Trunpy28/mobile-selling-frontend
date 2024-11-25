@@ -44,7 +44,30 @@ const userService = {
             }
         );
         return respond.data;
+    },
+    updateAvatar: async (accessToken, avatarFile) => {
+        const formData = new FormData();
+        formData.append('avatarImage', avatarFile);
+
+        const response = await axiosJWT.patch(`${userApiUrl}/change-avatar`, formData, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "multipart/form-data",
+            }
+        });
+
+        return response.data;
+    },
+    updateProfile: async (accessToken, profile) => {
+        const response = await axiosJWT.put(`${userApiUrl}/update-profile`, profile, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        return response.data;
     }
+        
 }
 
 
