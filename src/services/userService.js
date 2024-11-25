@@ -3,7 +3,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const userService = {
     signIn: async (email, password) => {
-        console.log(apiUrl);
         const respond = await axios.post(`${apiUrl}/user/sign-in`, {
             email,
             password
@@ -20,7 +19,6 @@ const userService = {
             passwordConfirm
         }
         const res = await axios.post(URL_BACKEND, data);
-        console.log(res);
         return res;
     }
 }
