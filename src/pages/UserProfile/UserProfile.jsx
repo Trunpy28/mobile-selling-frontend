@@ -35,9 +35,9 @@ function UserProfile() {
 
   //Xử lý địa chỉ
   const [address, setAddress] = useState({
-    city: user?.address?.city, // Mã tỉnh được chọn
-    district: user?.address?.district, // Mã quận/huyện được chọn
-    ward: user?.address?.ward, // Mã phường/xã được chọn
+    city: user?.address?.city,
+    district: user?.address?.district,
+    ward: user?.address?.ward,
   });
 
   // Lấy danh sách tỉnh, quận và phường dựa trên trạng thái
