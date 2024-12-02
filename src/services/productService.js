@@ -12,6 +12,8 @@ const productService = {
 
   getProductById: async (productId) => {
     const URL_BACKEND = `${apiUrl}/product/product-details/${productId}`;
+    console.log(URL_BACKEND);
+    
     const res = await axios.get(URL_BACKEND);
     return res.data;
   },
