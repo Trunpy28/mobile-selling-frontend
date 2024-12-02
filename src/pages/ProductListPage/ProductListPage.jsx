@@ -105,7 +105,7 @@ function ProductListPage() {
           </div>
         </div>
 
-        <div className="pl-8">
+        <div className="pl-8 w-full">
           <Loading isLoading={isProductsPending}>
             <Row gutter={[0, 40]}>
               {data?.products?.map((product) => (

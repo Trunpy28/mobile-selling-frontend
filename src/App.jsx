@@ -9,24 +9,7 @@ import { useEffect } from "react";
 import { setUser } from "./redux/userStore.js";
 
 function App() {
-  const dispatch = useDispatch();
 
-  const handleGetUserProfile = async (accessToken) => {
-    try {
-      const data = await userService.getUserInformation(accessToken);
-      dispatch(setUser({ ...data.user, accessToken: accessToken }));
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  useEffect(() => {
-    const accessToken = handleGetAccessToken();
-    
-    if (accessToken) {
-      handleGetUserProfile(accessToken);
-    }
-  }, []);
 
   return (
     <>
