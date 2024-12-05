@@ -7,6 +7,10 @@ const brandService = {
     return respond.data;
   },
 
+  getBrandByName: async (brandName) => {
+    const res = await axios.get(`${apiUrl}/brand/brand-by-name/${brandName}`);
+    return res.data;
+  },
 };
 
 export default brandService;

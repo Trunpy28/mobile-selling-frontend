@@ -3,12 +3,14 @@ import { Button, Popconfirm, Table, Select } from "antd";
 import { useEffect, useState } from "react";
 import brandService from "../../services/brandService";
 import productService from "../../services/productService";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState("Apple");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBrands = async () => {
@@ -65,7 +67,10 @@ const Products = () => {
             title: 'Image',
             dataIndex: 'imageUrl',
             key: 'image',
-            render: (text) => <img src={text} alt="product" style={{ width: 50 }} />,
+            render: (text) => {
+                const firstImage = Array.isArray(text) && text.length > 0 ? text[0] : '';
+                return firstImage ? <img src={firstImage} alt="product" style={{ width: 50 }} /> : null;
+            },
         },
         {
             title: 'Name',
@@ -125,7 +130,11 @@ const Products = () => {
                         ))}
                     </Select>
 
-                    <Button type="primary" className="bg-blue-600 hover:bg-blue-700">
+                    <Button
+                        type="primary"
+                        className="bg-blue-600 hover:bg-blue-700"
+                        onClick={() => navigate('/admin/products/create')}
+                    >
                         + New
                     </Button>
                 </div>
