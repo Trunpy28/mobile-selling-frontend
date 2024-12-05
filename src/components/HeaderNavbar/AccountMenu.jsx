@@ -20,6 +20,8 @@ function AccountMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(user);
+
   // Xử lý đăng xuất
   const handleLogout = async () => {
     try {
@@ -61,21 +63,21 @@ function AccountMenu() {
         </span>
       ),
     },
-    ...(user?.isAdmin
+    ...(user.role === "Admin"
       ? [
-          {
-            key: "3",
-            label: (
-              <span
-                className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
-                onClick={() => navigate("/admin")}
-              >
-                <SettingOutlined className="text-orange-500 text-xl" />
-                <span>Quản lý hệ thống</span>
-              </span>
-            ),
-          },
-        ]
+        {
+          key: "3",
+          label: (
+            <span
+              className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              <SettingOutlined className="text-orange-500 text-xl" />
+              <span>Quản lý hệ thống</span>
+            </span>
+          ),
+        },
+      ]
       : []),
     {
       key: "4",
