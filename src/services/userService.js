@@ -8,6 +8,8 @@ const userService = {
         const respond = await axios.post(`${userApiUrl}/sign-in`, {
             email,
             password
+        }, {
+            withCredentials: true,
         })
 
         return respond.data;
@@ -38,7 +40,7 @@ const userService = {
     },
     refreshAccessToken: async () => {
         const respond = await axios.post(`${userApiUrl}/refresh-access-token`,
-            {}, 
+            {},
             {
                 withCredentials: true,     // Lấy cookies chứa refreshToken cho vào req
             }
@@ -67,7 +69,7 @@ const userService = {
 
         return response.data;
     }
-        
+
 }
 
 

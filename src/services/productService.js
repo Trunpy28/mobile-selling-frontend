@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosJWT from "./axiosJWT";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const productService = {
@@ -53,8 +54,9 @@ const productService = {
       formData.append('imageUrl', image.originFileObj);
     });
 
-    const res = await axios.post(URL_BACKEND, formData, {
+    const res = await axiosJWT.post(URL_BACKEND, formData, {
       headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         'Content-Type': 'multipart/form-data',
       },
     });

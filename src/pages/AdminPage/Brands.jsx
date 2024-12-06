@@ -1,29 +1,34 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, Table } from 'antd';
-import { useEffect, useState } from 'react'
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Modal, Popconfirm, Table, Upload, Spin } from 'antd';
+import { useCallback, useEffect, useState } from 'react'
 import brandService from '../../services/brandService';
 
 const Brands = () => {
 
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
+    const [form] = Form.useForm();
 
-    useEffect(() => {
-        const fetchBrands = async () => {
-            setLoading(true);
-            try {
-                const brands = await brandService.getAllBrands();
-                setBrands(brands);
-                console.log("Brands:", brands);
-            } catch (error) {
-                console.error("Error fetching brands:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchBrands();
+
+    const fetchBrands = useCallback(async () => {
+        setLoading(true);
+        try {
+            const brands = await brandService.getAllBrands();
+            setBrands(brands);
+            console.log("Brands:", brands);
+        } catch (error) {
+            console.error("Error fetching brands:", error);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
+    useEffect(() => {
+        fetchBrands();
+    }, [fetchBrands]);
 
     const handleEdit = (record) => {
         console.log("Edit:", record);
@@ -31,6 +36,38 @@ const Brands = () => {
 
     const handleDelete = (record) => {
         console.log("Delete:", record);
+    };
+
+    const onFinish = async (values) => {
+        try {
+            setIsCreating(true);
+            if (!file) {
+                throw new Error("Vui lòng thêm logo thương hiệu!");
+            }
+
+            const newBrand = {
+                name: values.name,
+                description: values.description,
+                logoUrl: file
+            };
+
+            const response = await brandService.createBrand(newBrand, file);
+            console.log("Response:", response);
+
+            message.success("Thêm thương hiệu thành công!");
+            form.resetFields();
+            setFile(null);
+            setIsModalOpen(false);
+            fetchBrands();
+        } catch (error) {
+            message.error(error.message || "Đã xảy ra lỗi khi thêm thương hiệu.");
+        } finally {
+            setIsCreating(false);
+        }
+    };
+
+    const handleUploadChange = ({ file }) => {
+        setFile(file);
     };
 
     const columns = [
@@ -78,13 +115,82 @@ const Brands = () => {
             ),
         },
     ];
+
+    const uploadButton = (
+        <button
+            style={{
+                border: 0,
+                background: "none",
+            }}
+            type="button"
+        >
+            <PlusOutlined />
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </button>
+    );
     return (
         <div>
             <div className='flex justify-between py-4'>
                 <h1 className='font-bold text-xl text-gray-800'>Danh sách thương hiệu</h1>
-                <Button type="primary" className="bg-blue-600 hover:bg-blue-700">
+                <Button
+                    type="primary"
+                    className="bg-blue-600 hover:bg-blue-700"
+                    onClick={() => setIsModalOpen(true)}
+                >
                     + New
                 </Button>
+                <Modal
+                    title="Thêm thương hiệu"
+                    open={isModalOpen}
+                    onCancel={() => setIsModalOpen(false)}
+                    footer={null}
+                >
+                    <Spin spinning={isCreating}>
+                        <Form
+                            onFinish={onFinish}
+                            autoComplete="off"
+                        >
+                            <Form.Item
+                                label="Tên thương hiệu"
+                                name="name"
+                                rules={[{ required: true, message: 'Hãy nhập tên thương hiệu!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Mô tả"
+                                name="description"
+                                rules={[{ required: true, message: 'Hãy nhập mô tả!' }]}
+                            >
+                                <Input.TextArea />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Upload ảnh"
+                                name="logoUrl"
+                                rules={[{ required: true, message: "Vui lòng thêm ảnh" }]}
+                            >
+                                <Upload
+                                    listType="picture-card"
+                                    maxCount={1}
+                                    beforeUpload={() => false}
+                                    onChange={handleUploadChange}
+                                >
+                                    {uploadButton}
+                                </Upload>
+                            </Form.Item>
+
+                            <Form.Item label={null}>
+                                <div style={{ textAlign: "center" }}>
+                                    <Button type="primary" htmlType="submit" loading={isCreating}>
+                                        Submit
+                                    </Button>
+                                </div>
+                            </Form.Item>
+                        </Form>
+                    </Spin>
+                </Modal>
             </div>
             <Table
                 columns={columns}

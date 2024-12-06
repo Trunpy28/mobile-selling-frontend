@@ -29,7 +29,7 @@ const Products = () => {
         const fetchProductByBrand = async () => {
             setLoading(true);
             try {
-                const products = await productService.getProductsByBrand(selectedBrand, 50);
+                const products = await productService.getProductsByBrand(selectedBrand, 30);
                 setProducts(products.products);
                 console.log("Products:", products);
             } catch (error) {
