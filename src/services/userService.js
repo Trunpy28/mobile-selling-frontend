@@ -74,8 +74,19 @@ const userService = {
         const URL_BACKEND = `${userApiUrl}/get-all`;
         const res = await axios.get(URL_BACKEND);
         return res.data;
-    }
+    },
 
+    getUserById: async (userId) => {
+        const URL_BACKEND = `${userApiUrl}/get-by-id/${userId}`;
+        const res = await axios.get(URL_BACKEND);
+        return res.data;
+    },
+
+    deleteUser: async (userId) => {
+        const URL_BACKEND = `${userApiUrl}/delete/${userId}`;
+        const res = await axios.delete(URL_BACKEND);
+        return res.data;
+    },
 }
 
 
