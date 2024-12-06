@@ -68,6 +68,12 @@ const userService = {
         });
 
         return response.data;
+    },
+
+    getAllUsers: async () => {
+        const URL_BACKEND = `${userApiUrl}/get-all`;
+        const res = await axios.get(URL_BACKEND);
+        return res.data;
     }
 
 }
