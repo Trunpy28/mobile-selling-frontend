@@ -140,14 +140,28 @@ const AddProduct = () => {
                                     name="originalPrice"
                                     rules={[{ required: true, message: "Vui lòng nhập giá gốc" }]}
                                 >
-                                    <InputNumber style={{ width: '100%' }} />
+                                    <InputNumber
+                                        style={{ width: '100%' }}
+                                        formatter={(value) => {
+                                            if (!value) return '';
+                                            return `${new Intl.NumberFormat('vi-VN').format(value)}`;
+                                        }}
+                                        parser={(value) => value.replace(/[^\d]/g, '')}
+                                    />
                                 </Form.Item>
                                 <Form.Item
                                     label="Giá giảm"
                                     name="price"
                                     rules={[{ required: true, message: "Vui lòng nhập giá đã giảm" }]}
                                 >
-                                    <InputNumber style={{ width: '100%' }} />
+                                    <InputNumber
+                                        style={{ width: '100%' }}
+                                        formatter={(value) => {
+                                            if (!value) return '';
+                                            return `${new Intl.NumberFormat('vi-VN').format(value)}`;
+                                        }}
+                                        parser={(value) => value.replace(/[^\d]/g, '')}
+                                    />
                                 </Form.Item>
                                 <Form.Item
                                     label="Số lượng"

@@ -82,6 +82,26 @@ const Products = () => {
             dataIndex: 'color',
             key: 'color',
         },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            render: (text, record, index, action) => {
+                if (text)
+                    return new Intl.NumberFormat('vi-VN',
+                        { style: 'currency', currency: 'VND' }).format(text)
+
+            },
+        },
+        {
+            title: 'Original Price',
+            dataIndex: 'originalPrice',
+            render: (text, record, index, action) => {
+                if (text)
+                    return new Intl.NumberFormat('vi-VN',
+                        { style: 'currency', currency: 'VND' }).format(text)
+
+            },
+        },
 
         {
             title: 'Quantity',
