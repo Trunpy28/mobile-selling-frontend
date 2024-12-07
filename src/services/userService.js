@@ -87,6 +87,12 @@ const userService = {
         const res = await axios.delete(URL_BACKEND);
         return res.data;
     },
+
+    countTotalUsers: async () => {
+        const URL_BACKEND = `${userApiUrl}/total-users`;
+        const res = await axios.get(URL_BACKEND);
+        return res.data;
+    }
 }
 
 

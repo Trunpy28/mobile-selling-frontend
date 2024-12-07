@@ -59,6 +59,12 @@ const brandService = {
       },
     });
   },
+
+  getBrandsWithProductCount: async () => {
+    const URL_BACKEND = `${apiUrl}/brand/brands-with-count`;
+    const res = await axios.get(URL_BACKEND);
+    return res.data;
+  }
 };
 
 export default brandService;

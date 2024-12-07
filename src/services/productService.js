@@ -71,7 +71,13 @@ const productService = {
       },
     }
     )
-  }
+  },
+
+  countTotalProducts: async () => {
+    const URL_BACKEND = `${apiUrl}/product/total-products`;
+    const res = await axios.get(URL_BACKEND);
+    return res.data;
+  },
 };
 
 export default productService;
