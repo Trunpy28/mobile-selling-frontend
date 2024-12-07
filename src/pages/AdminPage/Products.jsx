@@ -48,8 +48,13 @@ const Products = () => {
         console.log("Edit:", record);
     };
 
-    const handleDelete = (record) => {
-        console.log("Delete:", record);
+    const handleDelete = (productId) => {
+        try {
+            productService.deleteProduct(productId);
+            setProducts(products.filter(product => product._id !== productId));
+        } catch (error) {
+            console.error("Error deleting product:", error);
+        }
     };
 
     const handleBrandChange = (value) => {

@@ -28,7 +28,37 @@ const brandService = {
     });
 
     return res.data;
-  }
+  },
+
+  updateBrand: async (brandId, brand, image) => {
+    const URL_BACKEND = `${apiUrl}/brand/update/${brandId}`;
+
+    const formData = new FormData();
+    formData.append("name", brand.name);
+    formData.append("description", brand.description);
+    if (image) {
+      formData.append("logoUrl", image);
+    }
+
+    const res = await axios.put(URL_BACKEND, formData, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return res.data;
+  },
+
+
+  deleteBrand: async (brandId) => {
+    const URL_BACKEND = `${apiUrl}/brand/delete/${brandId}`;
+    await axios.delete(URL_BACKEND, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+  },
 };
 
 export default brandService;

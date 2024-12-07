@@ -61,6 +61,16 @@ const productService = {
       },
     });
     return res.data;
+  },
+
+  deleteProduct: async (productId) => {
+    const URL_BACKEND = `${apiUrl}/product/delete/${productId}`;
+    await axios.delete(URL_BACKEND, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    }
+    )
   }
 };
 

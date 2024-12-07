@@ -9,7 +9,13 @@ const Brands = () => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [editingBrand, setEditingBrand] = useState(null);
+    const [editingFile, setEditingFile] = useState(null);
+
+    const [editForm] = Form.useForm();
     const [form] = Form.useForm();
 
 
@@ -30,13 +36,32 @@ const Brands = () => {
         fetchBrands();
     }, [fetchBrands]);
 
-    const handleEdit = (record) => {
-        console.log("Edit:", record);
+    const handleEdit = (brand) => {
+        setEditingBrand(brand);
+        setEditingFile(null);
+
+        // Set giá trị của form
+        editForm.setFieldsValue({
+            name: brand.name,
+            description: brand.description,
+            logoUrl: brand.logoUrl,
+        });
+
+        setIsEditModalOpen(true);
     };
 
-    const handleDelete = (record) => {
-        console.log("Delete:", record);
-    };
+
+
+    const handleDelete = (brandId) => {
+        try {
+            brandService.deleteBrand(brandId);
+            setBrands(brands.filter(brand => brand._id !== brandId));
+            message.success("Xóa thương hiệu thành công!");
+        } catch (error) {
+            console.error("Error deleting brand:", error);
+            message.error("Đã xảy ra lỗi khi xóa thương hiệu.");
+        };
+    }
 
     const onFinish = async (values) => {
         try {
@@ -65,6 +90,34 @@ const Brands = () => {
             setIsCreating(false);
         }
     };
+
+    const onEditFinish = async (values) => {
+        try {
+            setIsUpdating(true);
+
+            const updatedData = {
+                name: values.name,
+                description: values.description,
+            };
+
+            if (editingFile) {
+                updatedData.logoUrl = editingFile;
+            } else {
+                updatedData.logoUrl = editingBrand.logoUrl;
+            }
+
+            await brandService.updateBrand(editingBrand._id, updatedData, editingFile);
+
+            message.success("Cập nhật thương hiệu thành công!");
+            setIsEditModalOpen(false);
+            fetchBrands();
+        } catch (error) {
+            message.error(error.message || "Đã xảy ra lỗi khi cập nhật thương hiệu.");
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
 
     const handleUploadChange = ({ file }) => {
         setFile(file);
@@ -191,11 +244,70 @@ const Brands = () => {
                         </Form>
                     </Spin>
                 </Modal>
+                <Modal
+                    title="Chỉnh sửa thương hiệu"
+                    open={isEditModalOpen}
+                    onCancel={() => setIsEditModalOpen(false)}
+                    footer={null}
+                >
+                    <Spin spinning={isUpdating}>
+                        <Form
+                            form={editForm}
+                            onFinish={onEditFinish}
+                            autoComplete="off"
+                        >
+                            <Form.Item
+                                label="Tên thương hiệu"
+                                name="name"
+                                rules={[{ required: true, message: 'Hãy nhập tên thương hiệu!' }]}
+                            >
+                                <Input />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Mô tả"
+                                name="description"
+                                rules={[{ required: true, message: 'Hãy nhập mô tả!' }]}
+                            >
+                                <Input.TextArea />
+                            </Form.Item>
+
+                            <Form.Item
+                                label="Upload ảnh"
+                                name="logoUrl"
+                            >
+                                <Upload
+                                    listType="picture-card"
+                                    maxCount={1}
+                                    beforeUpload={() => false}
+                                    onChange={({ file }) => setEditingFile(file)}
+                                    defaultFileList={editingBrand?.logoUrl ? [{
+                                        uid: '-1',
+                                        name: 'logo.png',
+                                        url: editingBrand.logoUrl,
+                                    }] : []}
+                                >
+                                    <PlusOutlined />
+                                    <div style={{ marginTop: 8 }}>Upload</div>
+                                </Upload>
+                            </Form.Item>
+
+                            <Form.Item>
+                                <div style={{ textAlign: "center" }}>
+                                    <Button type="primary" htmlType="submit" loading={isUpdating}>
+                                        Cập nhật
+                                    </Button>
+                                </div>
+                            </Form.Item>
+                        </Form>
+                    </Spin>
+                </Modal>
             </div>
             <Table
                 columns={columns}
                 dataSource={brands}
                 loading={loading}
+                rowKey='_id'
             />
         </div>
     )
