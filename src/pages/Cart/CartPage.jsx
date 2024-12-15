@@ -19,15 +19,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import cartService from "../../services/cartService";
 import { handleGetAccessToken } from "../../services/axiosJWT";
-import { setCart } from "../../redux/cartSlice";
+import { resetCart, setCart } from "../../redux/cartSlice";
+import orderService from "../../services/orderService";
+import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 
 const CartPage = () => {
   const user = useSelector((state) => state.user);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  
-	const formRef = useRef(null); // Ref để truy cập Form
+  const navigate = useNavigate();
+
+  const formRef = useRef(null); // Ref để truy cập Form
   useEffect(() => {
     if (formRef.current && user) {
       formRef.current.setFieldsValue({
@@ -49,21 +52,19 @@ const CartPage = () => {
       return cartService.updateProduct(accessToken, productId, quantity);
     },
     onSuccess: (data) => {
-      dispatch(setCart(data?.cart))
+      dispatch(setCart(data?.cart));
     },
     onError: (error) => {
       message.error(error?.respond?.message, 3);
     },
-  })
-
-  const { data: dataUpdate, isPending: isPendingUpdate } = updateProductMutation;
+  });
 
   const [address, setAddress] = useState({
     city: user?.address?.city,
     district: user?.address?.district,
     ward: user?.address?.ward,
   });
-	
+
   const districts =
     address.city &&
     addressVietNam.find((city) => city.name === address.city)?.districts;
@@ -104,13 +105,57 @@ const CartPage = () => {
     updateProductMutation.mutate({ productId: id.toString(), quantity: 0 });
   };
 
-	const onFinishOrder = (values) => {
-		console.log(values);
-		
-	}
+  //Create order
+
+  const createOrderMutation = useMutation({
+    mutationFn: async ({ shippingInfo, paymentMethod }) => {
+      const accessToken = handleGetAccessToken();
+      return orderService.createOrder(accessToken, shippingInfo, paymentMethod);
+    },
+    onSuccess: (data) => {
+      message.success(data?.message, 3);
+      dispatch(resetCart());
+      navigate("/order-success", {
+        state: {
+          order: data?.newOrder,
+          payment: data?.newPayment
+        }
+      })
+    },
+    onError: (error) => {
+      message.error(error?.respond?.message, 3);
+    },
+  });
+
+  const onFinishOrder = async (value) => {
+    const {
+      name,
+      phoneNumber,
+      city,
+      district,
+      ward,
+      detailedAddress,
+      paymentMethod,
+    } = value;
+
+    const shippingInfo = {
+      name,
+      phoneNumber,
+      city,
+      district,
+      ward,
+      detailedAddress,
+    };
+
+    await createOrderMutation.mutateAsync({ shippingInfo, paymentMethod });
+  };
 
   return (
-    <Spin spinning={isPendingUpdate}>
+    <Spin
+      spinning={
+        updateProductMutation?.isPendingUpdate || createOrderMutation?.isPending
+      }
+    >
       <div className="min-h-screen bg-gray-100 p-8">
         <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
           {/* Tiêu đề */}
@@ -124,7 +169,10 @@ const CartPage = () => {
             renderItem={(item) => (
               <List.Item className="border-b pb-4 mb-4 flex">
                 <Row gutter={16} className="w-full items-center">
-                  <Col span={6} className="flex flex-col items-center space-y-2">
+                  <Col
+                    span={6}
+                    className="flex flex-col items-center space-y-2"
+                  >
                     {/* Ảnh sản phẩm */}
                     <img
                       src={item?.product?.imageUrl}
@@ -153,12 +201,17 @@ const CartPage = () => {
                       min={1}
                       max={item?.product?.countInStock}
                       value={item.quantity}
-                      onChange={(value) => handleQuantityChange(item?.product?._id, value)}
+                      onChange={(value) =>
+                        handleQuantityChange(item?.product?._id, value)
+                      }
                     />
                   </Col>
                   <Col span={4}>
                     <Text strong>
-                      {(item?.product?.price * item.quantity).toLocaleString("vi-VN")}₫
+                      {(item?.product?.price * item.quantity).toLocaleString(
+                        "vi-VN"
+                      )}
+                      ₫
                     </Text>
                   </Col>
                 </Row>
@@ -174,7 +227,12 @@ const CartPage = () => {
           </div>
 
           {/* Form chọn địa chỉ */}
-          <Form layout="vertical" className="mt-6" ref={formRef} onFinish={onFinishOrder}>
+          <Form
+            layout="vertical"
+            className="mt-6"
+            ref={formRef}
+            onFinish={onFinishOrder}
+          >
             <Title level={4}>Thông tin giao hàng</Title>
 
             <Form.Item label="Họ và Tên" name="name" required>
@@ -222,19 +280,18 @@ const CartPage = () => {
             </Form.Item>
 
             <Form.Item label="Địa chỉ" name="detailedAddress" required>
-              <Input
-                placeholder="Nhập địa chỉ"
-              />
+              <Input placeholder="Nhập địa chỉ" />
             </Form.Item>
 
-            <Form.Item label="Phương thức thanh toán" name="paymentMethod" required>
+            <Form.Item
+              label="Phương thức thanh toán"
+              name="paymentMethod"
+              initialValue="COD"
+              required
+            >
               <Radio.Group>
-                <Radio value="COD">
-                  Thanh toán khi nhận hàng
-                </Radio>
-                <Radio value="VNPAY">
-                  Thanh toán bằng VNPAY
-                </Radio>
+                <Radio value="COD">Thanh toán khi nhận hàng</Radio>
+                <Radio value="VNPAY">Thanh toán bằng VNPAY</Radio>
               </Radio.Group>
             </Form.Item>
 

@@ -8,6 +8,8 @@ const userService = {
         const respond = await axios.post(`${userApiUrl}/sign-in`, {
             email,
             password
+        }, {
+            withCredentials: true,
         })
 
         return respond.data;

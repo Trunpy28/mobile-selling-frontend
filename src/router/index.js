@@ -1,5 +1,6 @@
 import CartPage from "../pages/Cart/CartPage";
 import HomePage from "../pages/HomePage/HomePage";
+import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
 import ProductListPage from "../pages/ProductListPage/ProductListPage";
 import SignIn from "../pages/SignIn/SignIn";
@@ -40,6 +41,11 @@ export const routes = [
     {
         path: '/cart',
         page: CartPage,
+        adminManage: false
+    },
+    {
+        path: '/order-success',
+        page: OrderSuccess,
         adminManage: false
     }
 ];
