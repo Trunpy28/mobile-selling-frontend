@@ -45,7 +45,7 @@ const Products = () => {
     }, [selectedBrand]);
 
     const handleEdit = (record) => {
-        console.log("Edit:", record);
+        navigate(`/admin/products/detail/${record._id}`);
     };
 
     const handleDelete = (productId) => {

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Spin } from "antd";
+import { Button, message, Spin } from "antd";
 import Chart from "react-apexcharts";
-import { IoStorefront, IoPerson } from "react-icons/io5";
+import { IoStorefront, IoPerson, IoDownloadOutline } from "react-icons/io5";
 import brandService from "../../services/brandService";
 import productService from "../../services/productService";
 import userService from "../../services/userService";
+import exportFileService from "../../services/exportFileService";
 
 const Dashboard = () => {
     const [brandData, setBrandData] = useState([]);
@@ -71,6 +72,23 @@ const Dashboard = () => {
         return <div className="text-red-500 text-center">{error}</div>;
     }
 
+    const handleExportCSV = async () => {
+        try {
+            const blob = await exportFileService.exportReport();
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "report-topzone.csv");
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error("Error exporting file:", error);
+            message.error("Không thể xuất báo cáo. Vui lòng thử lại.");
+        }
+    };
+
+
     return (
         <div className="px-6">
             {loading ? (
@@ -79,7 +97,16 @@ const Dashboard = () => {
                 </div>
             ) : (
                 <>
-                    <h1 className="font-bold text-3xl text-gray-800 pb-5">Dashboard</h1>
+                    <div className="flex justify-between items-center pb-5">
+                        <h1 className="font-bold text-3xl text-gray-800">Dashboard</h1>
+                        <Button
+                            type="primary"
+                            icon={<IoDownloadOutline size={20} />}
+                            onClick={handleExportCSV}
+                        >
+                            Xuất báo cáo
+                        </Button>
+                    </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                         <div

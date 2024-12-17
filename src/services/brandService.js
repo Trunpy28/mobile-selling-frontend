@@ -22,7 +22,7 @@ const brandService = {
 
     const res = await axios.post(URL_BACKEND, formData, {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
         "Content-Type": "multipart/form-data",
       },
     });
@@ -42,7 +42,7 @@ const brandService = {
 
     const res = await axios.put(URL_BACKEND, formData, {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
         "Content-Type": "multipart/form-data",
       },
     });
@@ -55,7 +55,7 @@ const brandService = {
     const URL_BACKEND = `${apiUrl}/brand/delete/${brandId}`;
     await axios.delete(URL_BACKEND, {
       headers: {
-        "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+        "Authorization": `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
       },
     });
   },

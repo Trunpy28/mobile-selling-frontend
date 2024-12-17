@@ -56,7 +56,32 @@ const productService = {
 
     const res = await axiosJWT.post(URL_BACKEND, formData, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res.data;
+  },
+
+  updateProduct: async (productId, product, images) => {
+    const URL_BACKEND = `${apiUrl}/product/update/${productId}`;
+    const formData = new FormData();
+
+    formData.append('brand', product.brand);
+    formData.append('brand', product.brand);
+    formData.append('name', product.name);
+    formData.append('color', product.color);
+    formData.append('originalPrice', product.originalPrice);
+    formData.append('price', product.price);
+    formData.append('countInStock', product.countInStock);
+    formData.append('description', product.description);
+    images.forEach((image) => {
+      formData.append('imageUrl', image.originFileObj || image.url);
+    });
+
+    const res = await axiosJWT.put(URL_BACKEND, formData, {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
         'Content-Type': 'multipart/form-data',
       },
     });
@@ -67,7 +92,7 @@ const productService = {
     const URL_BACKEND = `${apiUrl}/product/delete/${productId}`;
     await axios.delete(URL_BACKEND, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
       },
     }
     )

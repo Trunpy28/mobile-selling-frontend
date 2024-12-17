@@ -1,4 +1,3 @@
-import DashBoard from "../pages/AdminPage/Dashboard";
 import Products from "../pages/AdminPage/Products";
 import Orders from "../pages/AdminPage/Orders";
 import Users from "../pages/AdminPage/Users";
@@ -11,6 +10,8 @@ import SignUp from "../pages/SignUp/SignUp";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import Brands from "../pages/AdminPage/Brands";
 import AddProduct from "../pages/AdminPage/AddProduct";
+import DetailProduct from "../pages/AdminPage/DetailProduct";
+import Dashboard from "../pages/AdminPage/DashBoard";
 
 export const routes = [
     {
@@ -50,7 +51,7 @@ export const routes = [
     },
     {
         path: '/admin/dashboard',
-        page: DashBoard,
+        page: Dashboard,
         adminManage: true
     },
     {
@@ -76,6 +77,11 @@ export const routes = [
     {
         path: '/admin/users',
         page: Users,
+        adminManage: true
+    },
+    {
+        path: '/admin/products/detail/:productId',
+        page: DetailProduct,
         adminManage: true
     }
 ];
