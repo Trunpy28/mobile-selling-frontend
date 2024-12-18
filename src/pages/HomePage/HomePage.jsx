@@ -1,8 +1,6 @@
 import { Button, Carousel } from "antd";
 import productService from "../../services/productService";
-import { useEffect, useState } from "react";
 import ProductCard from "../../components/Card/ProductCard";
-import { FaApple } from "react-icons/fa";
 import { useQueries, useQuery } from "@tanstack/react-query";
 import brandService from "../../services/brandService";
 import Loading from "../../components/Loading/Loading";

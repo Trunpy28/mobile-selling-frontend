@@ -8,6 +8,8 @@ const userService = {
         const respond = await axios.post(`${userApiUrl}/sign-in`, {
             email,
             password
+        }, {
+            withCredentials: true,
         })
 
         return respond.data;
@@ -38,7 +40,7 @@ const userService = {
     },
     refreshAccessToken: async () => {
         const respond = await axios.post(`${userApiUrl}/refresh-access-token`,
-            {}, 
+            {},
             {
                 withCredentials: true,     // Lấy cookies chứa refreshToken cho vào req
             }
@@ -66,8 +68,31 @@ const userService = {
         });
 
         return response.data;
+    },
+
+    getAllUsers: async () => {
+        const URL_BACKEND = `${userApiUrl}/get-all`;
+        const res = await axios.get(URL_BACKEND);
+        return res.data;
+    },
+
+    getUserById: async (userId) => {
+        const URL_BACKEND = `${userApiUrl}/get-by-id/${userId}`;
+        const res = await axios.get(URL_BACKEND);
+        return res.data;
+    },
+
+    deleteUser: async (userId) => {
+        const URL_BACKEND = `${userApiUrl}/delete/${userId}`;
+        const res = await axios.delete(URL_BACKEND);
+        return res.data;
+    },
+
+    countTotalUsers: async () => {
+        const URL_BACKEND = `${userApiUrl}/total-users`;
+        const res = await axios.get(URL_BACKEND);
+        return res.data;
     }
-        
 }
 
 
