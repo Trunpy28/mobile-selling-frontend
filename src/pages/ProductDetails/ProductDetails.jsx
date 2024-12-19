@@ -24,15 +24,15 @@ const ProductDetail = () => {
 
     const mutationAddToCart = useMutation({
         mutationFn: () => {
-          const accessToken = handleGetAccessToken();
-          return cartService.addProductToCart(accessToken, productId);
+            const accessToken = handleGetAccessToken();
+            return cartService.addProductToCart(accessToken, productId);
         },
         onSuccess: (data) => {
-          message.success(data?.message, 3);
-          dispatch(setCart(data?.cart));
+            message.success(data?.message, 3);
+            dispatch(setCart(data?.cart));
         },
         onError: (error) => {
-          message.error("Thêm sản phẩm thất bại", 3);
+            message.error("Thêm sản phẩm thất bại", 3);
         }
     });
 
@@ -41,13 +41,8 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(productId);
-                
                 const productResponse = await productService.getProductById(productId);
                 const productDetailResponse = await productDetailService.getProductDetail(productId);
-                console.log(productResponse.product);
-                console.log(productDetailResponse.data);
-
                 setProduct(productResponse.product);
                 setProductDetail(productDetailResponse.data);
             } catch (error) {
