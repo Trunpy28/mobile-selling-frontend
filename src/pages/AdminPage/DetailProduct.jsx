@@ -77,26 +77,23 @@ const ProductDetail = () => {
     const onFinish = async (values) => {
         setLoading(true);
         try {
-            // Tách các ảnh cũ và mới từ fileList
             const oldImages = fileList
                 .filter((file) => file.url)
-                .map((file) => file.url); // URL của ảnh đã lưu
+                .map((file) => file.url);
             const newImages = fileList
                 .filter((file) => file.originFileObj)
-                .map((file) => file.originFileObj); // File ảnh mới
+                .map((file) => file.originFileObj);
 
-            // Gọi service updateProduct với 3 tham số
-            const images = [...oldImages, ...newImages]; // Gộp ảnh cũ và mới thành một mảng
+            const images = [...oldImages, ...newImages];
             await productService.updateProduct(
-                productId, // ID sản phẩm
+                productId,
                 {
                     ...values,
-                    brand: selectedBrand, // Gửi thông tin sản phẩm (bao gồm brand là ID của thương hiệu)
+                    brand: selectedBrand,
                 },
-                images // Gửi danh sách ảnh cũ và mới
+                images
             );
 
-            // Điều hướng về trang danh sách sản phẩm sau khi cập nhật thành công
             navigate('/admin/products');
         } catch (error) {
             console.error('Error updating product:', error);

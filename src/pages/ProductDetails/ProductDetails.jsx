@@ -177,33 +177,53 @@ const ProductDetail = () => {
                         <p>🚚 Giao hàng nhanh toàn quốc</p>
                     </div>
                 </div>
-                <div className="max-w-2xl mx-auto p-4 bg-white">
-                    <Tabs defaultActiveKey="1" centered>
+                <div className="max-w-2xl mx-auto p-4 bg-[#242424]">
+                    <Tabs defaultActiveKey="1" centered className='bg-dark text-white'>
                         <TabPane tab="Thông số kỹ thuật" key="1">
-                            <Collapse accordion>
-                                <Panel header="Cấu hình & Bộ nhớ" key="1">
+                            <Collapse
+                                accordion
+                                className="bg-[#242424] text-white"
+                            >
+                                <Panel
+                                    header="Cấu hình & Bộ nhớ"
+                                    key="1"
+                                    className="bg-[#242424] text-white"
+                                >
                                     <p>Hệ điều hành: {productDetail?.specifications.os}</p>
                                     <p>CPU: {productDetail?.specifications.cpu}</p>
                                     <p>GPU: {productDetail?.specifications.gpu}</p>
                                     <p>RAM: {productDetail?.specifications.ram}</p>
                                 </Panel>
-                                <Panel header="Camera & Màn hình" key="2">
+                                <Panel
+                                    header="Camera & Màn hình"
+                                    key="2"
+                                    className="bg-[#242424] text-white"
+                                >
                                     <p>Camera sau: {productDetail?.cameraDisplay.backCamera}</p>
                                     <p>Camera trước: {productDetail?.cameraDisplay.frontCamera}</p>
                                     <p>Độ rộng: {productDetail?.cameraDisplay?.displayWidth}</p>
                                     <p>Màn hình: {productDetail?.cameraDisplay?.displayTech}</p>
                                 </Panel>
-                                <Panel header="Pin & Sạc" key="3">
+                                <Panel
+                                    header="Pin & Sạc"
+                                    key="3"
+                                    className="bg-[#242424] text-white"
+                                >
                                     <p>Loại pin: {productDetail?.pinAdapter?.pinType}</p>
                                     <p>Adapter Power: {productDetail?.pinAdapter?.maxAdapterPower}</p>
                                     <p>Capacity: {productDetail?.pinAdapter?.pinCapacity}</p>
                                 </Panel>
-                                <Panel header="Thiết kế & Chất liệu" key="6">
+                                <Panel
+                                    header="Thiết kế & Chất liệu"
+                                    key="4"
+                                    className="bg-[#242424] text-white"
+                                >
                                     <p>Thiết kế: {productDetail?.designMaterial?.design}</p>
                                     <p>Vật liệu: {productDetail?.designMaterial?.material}</p>
                                     <p>Khối lượng: {productDetail?.designMaterial?.sizeWeight}</p>
                                 </Panel>
                             </Collapse>
+
                         </TabPane>
                         <TabPane tab="Đánh giá sản phẩm" key="2">
                             <div>
