@@ -7,15 +7,17 @@ import { Col, Pagination, Row, Select } from "antd";
 import ProductCard from "../../components/Card/ProductCard";
 import Loading from "../../components/Loading/Loading";
 import productService from "../../services/productService";
+import { useNavigate } from "react-router-dom";
 
 function ProductListPage() {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const [sortOrder, setSortOrder] = useState(searchParams.get("sort") || "");
   const [selectedBrands, setSelectedBrands] = useState(
     searchParams.getAll("brands") || []
   );
-  const [pagination, setPagination] = useState({ page: 1, pageSize: 12});
+  const [pagination, setPagination] = useState({ page: 1, pageSize: 12 });
 
   const { data: brands = [], isPending: isBrandsPending } = useQuery({
     queryKey: ["brands"],
@@ -29,7 +31,7 @@ function ProductListPage() {
   const { data = [], isPending: isProductsPending } = useQuery({
     queryKey: ["products", { searchQuery, sortOrder, selectedBrands, ...pagination }],
     queryFn: () => {
-      const params = {...pagination};
+      const params = { ...pagination };
       if (searchQuery) params.searchQuery = searchQuery;
       if (sortOrder) params.sortOrder = sortOrder;
       if (selectedBrands.length) params.selectedBrands = selectedBrands;
@@ -59,6 +61,10 @@ function ProductListPage() {
       page: current,
       pageSize,
     })
+  };
+
+  const handleCardClick = (product) => {
+    navigate(`/product/product-details/${product._id}`);
   };
 
   return (
@@ -110,7 +116,10 @@ function ProductListPage() {
             <Row gutter={[0, 40]}>
               {data?.products?.map((product) => (
                 <Col key={product?._id} span={6}>
-                  <ProductCard product={product} />
+                  <ProductCard
+                    product={product}
+                    handleCardClick={() => handleCardClick(product)}
+                  />
                 </Col>
               ))}
             </Row>
@@ -124,7 +133,7 @@ function ProductListPage() {
             current={pagination?.page}
             pageSize={pagination?.pageSize}
             total={data?.totalProducts}
-            pageSizeOptions={[4,8,12,16,20]}
+            pageSizeOptions={[4, 8, 12, 16, 20]}
           />
         </div>
       </div>
