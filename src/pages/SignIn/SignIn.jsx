@@ -17,13 +17,15 @@ function SignIn() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ email, password }) => userService.signIn(email, password),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data?.accessToken) {
         localStorage.setItem("access_token", JSON.stringify(data.accessToken));
         message.success("Đăng nhập thành công!", 3);
         const accessToken = handleGetAccessToken();
-        handleGetUserProfile(accessToken);      
-        navigate(returnUrl);
+        const user = await handleGetUserProfile(accessToken);
+        if (user) {
+          navigate('/');
+        }
       } else {
         message.error("Dữ liệu trả về không hợp lệ!", 3);
       }
@@ -31,7 +33,7 @@ function SignIn() {
     onError: (error) => {
       message.error(
         error?.response?.data?.message ||
-          "Đăng nhập thất bại! Vui lòng thử lại.",
+        "Đăng nhập thất bại! Vui lòng thử lại.",
         3
       );
     },
@@ -44,8 +46,9 @@ function SignIn() {
   const handleGetUserProfile = async (accessToken) => {
     try {
       const data = await userService.getUserInformation(accessToken);
-      
+      const user = { ...data.user, accessToken: accessToken };
       dispatch(setUser({ ...data.user, accessToken: accessToken }));
+      return user;
     } catch (e) {
       console.log(e.message);
     }

@@ -7,6 +7,8 @@ import userService from "./services/userService.js";
 import { handleGetAccessToken } from "./services/axiosJWT.js";
 import { useEffect } from "react";
 import { setUser } from "./redux/userStore.js";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute.jsx";
+import AdminPage from "./pages/AdminPage/AdminPage.jsx";
 
 function App() {
 
@@ -34,7 +36,13 @@ function App() {
                 <Route
                   key={route.path}
                   path={route.path}
-                  element={route.page}
+                  element={
+                    <PrivateRoute>
+                      <AdminPage>
+                        <Page />
+                      </AdminPage>
+                    </PrivateRoute>
+                  }
                 />
               );
           })}
