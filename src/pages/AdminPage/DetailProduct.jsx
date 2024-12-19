@@ -208,11 +208,12 @@ const ProductDetail = () => {
                         <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
                             <Button
                                 type="default"
-                                onClick={() => console.log('Xem thông số sản phẩm')}
+                                onClick={() => navigate(`/admin/products/specifications/${productId}`)}
                                 style={{ marginRight: '10px' }}
                             >
                                 Thông số sản phẩm
                             </Button>
+
                             <Button type="primary" htmlType="submit">
                                 Cập nhật sản phẩm
                             </Button>
