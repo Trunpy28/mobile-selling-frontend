@@ -127,7 +127,7 @@ const CartPage = () => {
                   <Col span={6} className="flex flex-col items-center space-y-2">
                     {/* Ảnh sản phẩm */}
                     <img
-                      src={item?.product?.imageUrl}
+                      src={item?.product?.imageUrl[0]}
                       alt={item?.product?.name}
                       className="h-20 w-auto rounded-lg object-contain"
                     />

@@ -20,7 +20,7 @@ const orderService = {
         return response.data;
     },
     changeOrderStatus: async (accessToken, orderId, data) => {
-        const response = await axiosJWT.post(`${apiUrl}/order/change-status/${orderId}`, { data }, {
+        const response = await axiosJWT.patch(`${apiUrl}/order/change-status/${orderId}`, { ...data }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
             }
