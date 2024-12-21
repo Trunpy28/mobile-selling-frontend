@@ -1,4 +1,4 @@
-import axiosJWT from "./axiosJWT";
+import axiosJWT from './axiosJWT';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

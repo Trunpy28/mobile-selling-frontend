@@ -13,6 +13,7 @@ import Brands from "../pages/AdminPage/Brands";
 import AddProduct from "../pages/AdminPage/AddProduct";
 import DetailProduct from "../pages/AdminPage/DetailProduct";
 import Dashboard from "../pages/AdminPage/DashBoard";
+import ProductSpecifications from "../pages/AdminPage/ProductSpecifications";
 
 export const routes = [
     {
@@ -83,6 +84,11 @@ export const routes = [
     {
         path: '/admin/products/detail/:productId',
         page: DetailProduct,
+        adminManage: true
+    },
+    {
+        path: '/admin/products/specifications/:productId',
+        page: ProductSpecifications,
         adminManage: true
     },
     {
