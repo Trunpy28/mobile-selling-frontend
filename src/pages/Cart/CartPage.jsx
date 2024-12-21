@@ -291,7 +291,7 @@ const CartPage = () => {
             >
               <Radio.Group>
                 <Radio value="COD">Thanh toán khi nhận hàng</Radio>
-                <Radio value="VNPAY">Thanh toán bằng VNPAY</Radio>
+                <Radio value="MoMo">Thanh toán bằng MoMo</Radio>
               </Radio.Group>
             </Form.Item>
 
