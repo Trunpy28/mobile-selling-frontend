@@ -175,7 +175,7 @@ const CartPage = () => {
                   >
                     {/* Ảnh sản phẩm */}
                     <img
-                      src={item?.product?.imageUrl}
+                      src={item?.product?.imageUrl[0]}
                       alt={item?.product?.name}
                       className="h-20 w-auto rounded-lg object-contain"
                     />
