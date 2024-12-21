@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Select,
   Form,
@@ -115,12 +115,17 @@ const CartPage = () => {
     onSuccess: (data) => {
       message.success(data?.message, 3);
       dispatch(resetCart());
-      navigate("/order-success", {
-        state: {
-          order: data?.newOrder,
-          payment: data?.newPayment
-        }
-      })
+      if (data?.paymentData?.paymentUrl) {
+        window.location.href = data?.paymentData?.paymentUrl;
+      }
+      else {
+        navigate("/order-success", {
+          state: {
+            order: data?.newOrder,
+            payment: data?.paymentData?.savedPayment
+          }
+        })
+      }
     },
     onError: (error) => {
       message.error(error?.respond?.message, 3);
@@ -291,7 +296,7 @@ const CartPage = () => {
             >
               <Radio.Group>
                 <Radio value="COD">Thanh toán khi nhận hàng</Radio>
-                <Radio value="VNPAY">Thanh toán bằng VNPAY</Radio>
+                <Radio value="VNPay">Thanh toán bằng VNPAY</Radio>
               </Radio.Group>
             </Form.Item>
 

@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-
 const CustomBrandCheckbox = ({ label, handleBrandsChange, checked }) => {
   const handleToggle = () => {
     if (checked) {
@@ -8,7 +6,7 @@ const CustomBrandCheckbox = ({ label, handleBrandsChange, checked }) => {
       handleBrandsChange((prev) => [...prev, label]);
     }
   };
-  
+
   return (
     <button
       onClick={handleToggle}
