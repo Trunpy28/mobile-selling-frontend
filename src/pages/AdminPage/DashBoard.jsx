@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Button, message, Spin } from "antd";
 import Chart from "react-apexcharts";
-import { IoStorefront, IoPerson, IoDownloadOutline } from "react-icons/io5";
+import { IoStorefront, IoPerson, IoDownloadOutline, IoCart } from "react-icons/io5";
 import brandService from "../../services/brandService";
 import productService from "../../services/productService";
 import userService from "../../services/userService";
 import exportFileService from "../../services/exportFileService";
+import orderService from "../../services/orderService";
 
 const Dashboard = () => {
     const [brandData, setBrandData] = useState([]);
     const [totalProducts, setTotalProducts] = useState(0);
     const [totalUsers, setTotalUsers] = useState(0);
+    const [totalOrders, setTotalOrders] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -20,15 +22,18 @@ const Dashboard = () => {
             setError(null);
 
             try {
-                const [brandsRes, productsRes, usersRes] = await Promise.all([
+                const [brandsRes, productsRes, usersRes, ordersRes] = await Promise.all([
                     brandService.getBrandsWithProductCount(),
                     productService.countTotalProducts(),
                     userService.countTotalUsers(),
+                    orderService.countOrders()
                 ]);
 
                 const brands = brandsRes.data;
                 const totalProductCount = productsRes.data;
                 const totalUserCount = usersRes.totalUsers;
+                const totalOrderCount = ordersRes;
+
 
                 const formattedBrandData = brands.map((brand) => ({
                     name: brand.name,
@@ -38,6 +43,9 @@ const Dashboard = () => {
                 setBrandData(formattedBrandData);
                 setTotalProducts(totalProductCount);
                 setTotalUsers(totalUserCount);
+                setTotalOrders(totalOrderCount.count);
+
+
             } catch (err) {
                 console.error("Failed to fetch data:", err);
                 setError("Failed to fetch data. Please try again later.");
@@ -140,6 +148,22 @@ const Dashboard = () => {
                                 </p>
                             </div>
                         </div>
+                        <div
+                            className="p-6 rounded-lg shadow-md flex items-center gap-4"
+                            style={{ backgroundColor: "#ED893620" }}
+                        >
+                            <IoCart size={32} color="#ED8936" />
+                            <div>
+                                <h3 className="text-xl font-medium">Đơn hàng</h3>
+                                <p
+                                    className="text-3xl font-semibold"
+                                    style={{ color: "#ED8936" }}
+                                >
+                                    {totalOrders}
+                                </p>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div className="bg-white p-6 rounded-lg shadow-md mb-8">
