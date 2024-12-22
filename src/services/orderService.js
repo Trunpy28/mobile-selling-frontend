@@ -47,6 +47,15 @@ const orderService = {
         });
 
         return response.data;
+    },
+    getOrderDetails: async (accessToken, orderId) => {
+        const response = await axiosJWT.get(`${apiUrl}/order/details/${orderId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        return response.data;
     }
 }
 

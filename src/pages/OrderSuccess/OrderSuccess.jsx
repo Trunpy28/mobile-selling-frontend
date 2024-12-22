@@ -68,14 +68,14 @@ function OrderSuccess() {
         </div>
         <div className="px-16 py-3 flex justify-between">
           <div className="text-lg">
-            Thời gian đặt hàng: {timeTranformFromMongoDB(order?.createdAt)}
+            <strong>Thời gian đặt hàng:</strong> {timeTranformFromMongoDB(order?.createdAt)}
           </div>
-          {payment?.status === "Completed" ? (
-            <div className="text-lg p-1 bg-green-400 w-fit rounded-lg font-bold text-white">
+          {payment?.paymentStatus === "Completed" ? (
+            <div className="text-lg px-2 py-1 bg-green-400 w-fit rounded-lg font-bold text-white h-fit">
               Đã thanh toán
             </div>
           ) : (
-            <div className="text-lg p-1 bg-yellow-500 w-fit rounded-lg font-bold text-white">
+            <div className="text-lg px-2 py-1 bg-yellow-500 w-fit rounded-lg font-bold text-white h-fit">
               Chưa thanh toán
             </div>
           )}

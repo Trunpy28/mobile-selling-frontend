@@ -16,6 +16,10 @@ function OrderCard({ order }) {
   const handleProductDetails = (productId) => {
     navigate(`/product/product-details/${productId}`);
   }
+
+  const handleOrderDetails = (orderId) => {
+    navigate(`/order/details/${orderId}`);
+  }
   
   return (
     <div className='rounded-lg bg-white px-10 py-8 text-black'>
@@ -30,7 +34,7 @@ function OrderCard({ order }) {
             <Col span={14} className='flex items-center'>
               <img className="cursor-pointer" src={item?.product?.imageUrl[0]} alt={item?.product?.name} width='100px' onClick={() => handleProductDetails(item?.product?._id)}/>
               <div className='flex flex-col gap-3'>
-                <div className='text-base text-black hover:text-sky-500 cursor-pointer' onClick={() => handleProductDetails(item?.product?._id)}>
+                <div className='text-base text-black hover:text-sky-500 cursor-pointer' onClick={() => {handleProductDetails(item?.product?._id)}}>
                   {item?.product?.name}
                 </div>
                 <div className='text-sm text-zinc-500'>{item?.product?.color}</div>
@@ -50,7 +54,7 @@ function OrderCard({ order }) {
           <span className='font-bold text-red-600 text-lg'>{formatCurrency(order?.totalPrice)}<sup>₫</sup></span>
         </div>
         <div className='flex justify-end mt-3'>
-          <button className='rounded-md border-sky-500 text-base border text-sky-500 px-2 py-1'>Xem chi tiết</button>
+          <button className='rounded-md border-sky-500 text-base border text-sky-500 px-2 py-1' onClick={() => {handleOrderDetails(order?._id)}}>Xem chi tiết</button>
         </div>
     </div>
   )

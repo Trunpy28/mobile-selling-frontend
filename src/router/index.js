@@ -15,6 +15,7 @@ import DetailProduct from "../pages/AdminPage/DetailProduct";
 import Dashboard from "../pages/AdminPage/DashBoard";
 import ProductSpecifications from "../pages/AdminPage/ProductSpecifications";
 import MyOrders from "../pages/MyOrders/MyOrders";
+import OrderDetails from "../pages/OrderDetails/OrderDetails";
 
 export const routes = [
     {
@@ -100,6 +101,11 @@ export const routes = [
     {
         path: '/my-orders',
         page: MyOrders,
+        adminManage: false
+    },
+    {
+        path: '/order/details/:orderId',
+        page: OrderDetails,
         adminManage: false
     }
 ];
