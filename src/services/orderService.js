@@ -38,6 +38,15 @@ const orderService = {
             }
         });
         return response.data;
+    },
+    getMyOrders: async (accessToken) => {
+        const response = await axiosJWT.get(`${apiUrl}/order/my-orders`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+
+        return response.data;
     }
 }
 

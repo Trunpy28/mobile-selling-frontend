@@ -15,6 +15,10 @@ function OrderSuccess() {
 		}
 	}, []);
 
+  const handleProductDetails = (productId) => {
+    navigate(`/product/product-details/${productId}`);
+  }
+
   const columns = [
     {
       title: "Sản phẩm",
@@ -25,10 +29,11 @@ function OrderSuccess() {
           <img
             src={record.product.imageUrl[0]}
             alt={record.product.name}
-            style={{ width: 100, height: 100, marginRight: 10 }}
+            style={{ width: 100, height: 100, marginRight: 10, cursor: 'pointer' }}
+            onClick={() => handleProductDetails(record?.product?._id)}
           />
 					<div>
-						<div className="text-base">{record.product.name}</div>
+						<div className="text-base hover:text-sky-500 cursor-pointer" onClick={() => handleProductDetails(record?.product?._id)}>{record.product.name}</div>
           	<div className="text-gray-500">{record.product.color}</div>
 					</div>
         </div>

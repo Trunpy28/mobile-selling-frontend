@@ -14,6 +14,7 @@ import AddProduct from "../pages/AdminPage/AddProduct";
 import DetailProduct from "../pages/AdminPage/DetailProduct";
 import Dashboard from "../pages/AdminPage/DashBoard";
 import ProductSpecifications from "../pages/AdminPage/ProductSpecifications";
+import MyOrders from "../pages/MyOrders/MyOrders";
 
 export const routes = [
     {
@@ -94,6 +95,11 @@ export const routes = [
     {
         path: '/order-success',
         page: OrderSuccess,
+        adminManage: false
+    },
+    {
+        path: '/my-orders',
+        page: MyOrders,
         adminManage: false
     }
 ];
