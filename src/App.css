@@ -1,0 +1,7 @@
+.hero-banner .slick-prev::after{
+    color: gray !important;
+}
+
+.hero-banner .slick-next::after{
+    color: gray !important;
+}

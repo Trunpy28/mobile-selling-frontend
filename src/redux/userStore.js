@@ -4,7 +4,7 @@ const initialState = {
   email: "",
   name: "",
   phoneNumber: "",
-  address: "",
+  address: {},
   avatarUrl: "",
   role: "",
   accessToken: "",
@@ -19,7 +19,7 @@ const userSlice = createSlice({
         email = "",
         name = "",
         phoneNumber = "",
-        address = "",
+        address = {},
         avatarUrl = "",
         role = "",
         accessToken = "",
@@ -41,7 +41,7 @@ const userSlice = createSlice({
       const {
         name = "",
         phoneNumber = "",
-        address = "",
+        address = {},
       } = action.payload;
 
       state.name = name;
@@ -52,7 +52,7 @@ const userSlice = createSlice({
       state.email = "";
       state.name = "";
       state.phoneNumber = "";
-      state.address = "";
+      state.address = {};
       state.avatarUrl = "";
       state.role = "";
       state.accessToken = "";
