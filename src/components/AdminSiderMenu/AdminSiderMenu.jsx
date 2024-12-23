@@ -20,7 +20,7 @@ const AdminSiderMenu = () => {
                 <img
                     src={logo}
                     alt="Admin Logo"
-                    className="h-12 w-auto"
+                    className="h-12 w-auto cursor-pointer"
                     onClick={() => {
                         navigate("/");
                     }}
