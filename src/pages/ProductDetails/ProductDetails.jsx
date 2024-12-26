@@ -129,7 +129,7 @@ const ProductDetail = () => {
                                             <img
                                                 src={img}
                                                 alt={`Thumbnail ${index + 1}`}
-                                                className="w-20 h-20 object-cover rounded-md"
+                                                className="w-20 h-20 object-cover"
                                             />
                                         </div>
                                     ))}
@@ -177,17 +177,17 @@ const ProductDetail = () => {
                         <p>🚚 Giao hàng nhanh toàn quốc</p>
                     </div>
                 </div>
-                <div className="max-w-2xl mx-auto p-4 bg-[#242424]">
-                    <Tabs defaultActiveKey="1" centered className='bg-dark text-white'>
+                <div className="max-w-2xl mx-auto p-4 bg-white">
+                    <Tabs defaultActiveKey="1" centered>
                         <TabPane tab="Thông số kỹ thuật" key="1">
                             <Collapse
                                 accordion
-                                className="bg-[#242424] text-white"
+                                className=""
                             >
                                 <Panel
                                     header="Cấu hình & Bộ nhớ"
                                     key="1"
-                                    className="bg-[#242424] text-white"
+                                    className=""
                                 >
                                     <p>Hệ điều hành: {productDetail?.specifications.os}</p>
                                     <p>CPU: {productDetail?.specifications.cpu}</p>
@@ -197,7 +197,7 @@ const ProductDetail = () => {
                                 <Panel
                                     header="Camera & Màn hình"
                                     key="2"
-                                    className="bg-[#242424] text-white"
+                                    className=""
                                 >
                                     <p>Camera sau: {productDetail?.cameraDisplay.backCamera}</p>
                                     <p>Camera trước: {productDetail?.cameraDisplay.frontCamera}</p>
@@ -207,7 +207,7 @@ const ProductDetail = () => {
                                 <Panel
                                     header="Pin & Sạc"
                                     key="3"
-                                    className="bg-[#242424] text-white"
+                                    className=""
                                 >
                                     <p>Loại pin: {productDetail?.pinAdapter?.pinType}</p>
                                     <p>Adapter Power: {productDetail?.pinAdapter?.maxAdapterPower}</p>
@@ -216,7 +216,7 @@ const ProductDetail = () => {
                                 <Panel
                                     header="Thiết kế & Chất liệu"
                                     key="4"
-                                    className="bg-[#242424] text-white"
+                                    className=""
                                 >
                                     <p>Thiết kế: {productDetail?.designMaterial?.design}</p>
                                     <p>Vật liệu: {productDetail?.designMaterial?.material}</p>

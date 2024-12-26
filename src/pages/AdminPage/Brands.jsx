@@ -18,7 +18,6 @@ const Brands = () => {
     const [editForm] = Form.useForm();
     const [form] = Form.useForm();
 
-
     const fetchBrands = useCallback(async () => {
         setLoading(true);
         try {
@@ -40,17 +39,13 @@ const Brands = () => {
         setEditingBrand(brand);
         setEditingFile(null);
 
-        // Set giá trị của form
         editForm.setFieldsValue({
             name: brand.name,
             description: brand.description,
             logoUrl: brand.logoUrl,
         });
-
         setIsEditModalOpen(true);
     };
-
-
 
     const handleDelete = (brandId) => {
         try {
@@ -69,13 +64,11 @@ const Brands = () => {
             if (!file) {
                 throw new Error("Vui lòng thêm logo thương hiệu!");
             }
-
             const newBrand = {
                 name: values.name,
                 description: values.description,
                 logoUrl: file
             };
-
             const response = await brandService.createBrand(newBrand, file);
             console.log("Response:", response);
 
@@ -94,18 +87,15 @@ const Brands = () => {
     const onEditFinish = async (values) => {
         try {
             setIsUpdating(true);
-
             const updatedData = {
                 name: values.name,
                 description: values.description,
             };
-
             if (editingFile) {
                 updatedData.logoUrl = editingFile;
             } else {
                 updatedData.logoUrl = editingBrand.logoUrl;
             }
-
             await brandService.updateBrand(editingBrand._id, updatedData, editingFile);
 
             message.success("Cập nhật thương hiệu thành công!");
@@ -117,7 +107,6 @@ const Brands = () => {
             setIsUpdating(false);
         }
     };
-
 
     const handleUploadChange = ({ file }) => {
         setFile(file);
