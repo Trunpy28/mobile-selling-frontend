@@ -15,9 +15,6 @@ const orderService = {
         }
       );
 
-      if (response.data.paymentUrl) {
-        window.location.href = response.data.paymentUrl;
-      }
       return response.data;
     } catch (error) {
       console.log("Tạo đơn hàng thất bại:", error);
