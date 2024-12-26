@@ -114,27 +114,30 @@ const Brands = () => {
 
     const columns = [
         {
-            title: 'No.',
+            title: 'STT',
             dataIndex: 'no',
-            render: (text, record, index) => index + 1,
+            render: (text, record, index) => <strong>{index + 1}</strong>,
+            width: 50,
         },
         {
             title: 'Logo',
             dataIndex: 'logoUrl',
             render: (text) => <img src={text} alt="product" style={{ width: 50 }} />,
+            width: 80,
         },
         {
-            title: 'Name',
+            title: 'Tên thương hiệu',
             dataIndex: 'name',
+            width: 150
         },
 
         {
-            title: 'Description',
+            title: 'Mô tả',
             dataIndex: 'description',
         },
 
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "20px" }}>
@@ -155,6 +158,7 @@ const Brands = () => {
                     </Popconfirm>
                 </div>
             ),
+            width: 120
         },
     ];
 
