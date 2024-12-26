@@ -177,60 +177,43 @@ const ProductDetail = () => {
                         <p>🚚 Giao hàng nhanh toàn quốc</p>
                     </div>
                 </div>
-                <div className="max-w-2xl mx-auto p-4 bg-white">
-                    <Tabs defaultActiveKey="1" centered>
-                        <TabPane tab="Thông số kỹ thuật" key="1">
-                            <Collapse
-                                accordion
-                                className=""
-                            >
-                                <Panel
-                                    header="Cấu hình & Bộ nhớ"
-                                    key="1"
-                                    className=""
-                                >
-                                    <p>Hệ điều hành: {productDetail?.specifications.os}</p>
-                                    <p>CPU: {productDetail?.specifications.cpu}</p>
-                                    <p>GPU: {productDetail?.specifications.gpu}</p>
-                                    <p>RAM: {productDetail?.specifications.ram}</p>
-                                </Panel>
-                                <Panel
-                                    header="Camera & Màn hình"
-                                    key="2"
-                                    className=""
-                                >
-                                    <p>Camera sau: {productDetail?.cameraDisplay.backCamera}</p>
-                                    <p>Camera trước: {productDetail?.cameraDisplay.frontCamera}</p>
-                                    <p>Độ rộng: {productDetail?.cameraDisplay?.displayWidth}</p>
-                                    <p>Màn hình: {productDetail?.cameraDisplay?.displayTech}</p>
-                                </Panel>
-                                <Panel
-                                    header="Pin & Sạc"
-                                    key="3"
-                                    className=""
-                                >
-                                    <p>Loại pin: {productDetail?.pinAdapter?.pinType}</p>
-                                    <p>Adapter Power: {productDetail?.pinAdapter?.maxAdapterPower}</p>
-                                    <p>Capacity: {productDetail?.pinAdapter?.pinCapacity}</p>
-                                </Panel>
-                                <Panel
-                                    header="Thiết kế & Chất liệu"
-                                    key="4"
-                                    className=""
-                                >
-                                    <p>Thiết kế: {productDetail?.designMaterial?.design}</p>
-                                    <p>Vật liệu: {productDetail?.designMaterial?.material}</p>
-                                    <p>Khối lượng: {productDetail?.designMaterial?.sizeWeight}</p>
-                                </Panel>
-                            </Collapse>
-
-                        </TabPane>
-                        <TabPane tab="Đánh giá sản phẩm" key="2">
-                            <div>
-                                <h3>Đánh giá sản phẩm</h3>
+                <div className="max-w-2xl mx-auto p-6 bg-[#252525] text-white rounded-lg shadow-lg">
+                    <div className="mb-8">
+                        <h2 className="text-2xl font-semibold mb-6 text-center text-orange-500">Thông số kỹ thuật</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="p-6 border border-gray-600 rounded-lg bg-[#333333] shadow-lg hover:shadow-xl transition-shadow">
+                                <h3 className="text-xl font-semibold text-orange-400 mb-4">Cấu hình & Bộ nhớ</h3>
+                                <p><strong>Hệ điều hành:</strong> {productDetail?.specifications.os}</p>
+                                <p><strong>CPU:</strong> {productDetail?.specifications.cpu}</p>
+                                <p><strong>GPU:</strong> {productDetail?.specifications.gpu}</p>
+                                <p><strong>RAM:</strong> {productDetail?.specifications.ram}</p>
                             </div>
-                        </TabPane>
-                    </Tabs>
+                            <div className="p-6 border border-gray-600 rounded-lg bg-[#333333] shadow-lg hover:shadow-xl transition-shadow">
+                                <h3 className="text-xl font-semibold text-orange-400 mb-4">Camera & Màn hình</h3>
+                                <p><strong>Camera sau:</strong> {productDetail?.cameraDisplay.backCamera}</p>
+                                <p><strong>Camera trước:</strong> {productDetail?.cameraDisplay.frontCamera}</p>
+                                <p><strong>Công nghệ Màn hình:</strong> {productDetail?.cameraDisplay?.displayTech}</p>
+                                <p><strong>Độ phân giải màn hình:</strong> {productDetail?.cameraDisplay?.displayResolution}</p>
+                            </div>
+                            <div className="p-6 border border-gray-600 rounded-lg bg-[#333333] shadow-lg hover:shadow-xl transition-shadow">
+                                <h3 className="text-xl font-semibold text-orange-400 mb-4">Pin & Sạc</h3>
+                                <p><strong>Dung lượng:</strong> {productDetail?.pinAdapter?.pinCapacity}</p>
+                                <p><strong>Loại pin:</strong> {productDetail?.pinAdapter?.pinType}</p>
+                                <p><strong>Công suất tối đa:</strong> {productDetail?.pinAdapter?.maxAdapterPower}</p>
+                            </div>
+                            <div className="p-6 border border-gray-600 rounded-lg bg-[#333333] shadow-lg hover:shadow-xl transition-shadow">
+                                <h3 className="text-xl font-semibold text-orange-400 mb-4">Thiết kế & Chất liệu</h3>
+                                <p><strong>Thiết kế:</strong> {productDetail?.designMaterial?.design}</p>
+                                <p><strong>Chất liệu:</strong> {productDetail?.designMaterial?.material}</p>
+                                <p><strong>Kích thước và trọng lượng:</strong> {productDetail?.designMaterial?.sizeWeight}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 className="text-xl font-semibold mb-2">Đánh giá sản phẩm</h2>
+                        <p>Hiển thị các đánh giá hoặc bình luận của người dùng tại đây.</p>
+                    </div>
                 </div>
             </div>
         </Spin>
