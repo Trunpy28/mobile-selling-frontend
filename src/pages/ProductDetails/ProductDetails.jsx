@@ -187,6 +187,7 @@ const ProductDetail = () => {
                                 <p><strong>CPU:</strong> {productDetail?.specifications.cpu}</p>
                                 <p><strong>GPU:</strong> {productDetail?.specifications.gpu}</p>
                                 <p><strong>RAM:</strong> {productDetail?.specifications.ram}</p>
+                                <p><strong>Bộ nhớ:</strong> {productDetail?.specifications.storage}</p>
                             </div>
                             <div className="p-6 border border-gray-600 rounded-lg bg-[#333333] shadow-lg hover:shadow-xl transition-shadow">
                                 <h3 className="text-xl font-semibold text-orange-400 mb-4">Camera & Màn hình</h3>
