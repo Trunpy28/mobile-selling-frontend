@@ -115,12 +115,17 @@ const CartPage = () => {
     onSuccess: (data) => {
       message.success(data?.message, 3);
       dispatch(resetCart());
-      navigate("/order-success", {
-        state: {
-          order: data?.newOrder,
-          payment: data?.newPayment
-        }
-      })
+      if (data.paymentUrl) {
+        window.location.href = data.paymentUrl;
+      }
+      else {
+        navigate("/order-success", {
+          state: {
+            order: data?.newOrder,
+            payment: data?.newPayment
+          }
+        })
+      }
     },
     onError: (error) => {
       message.error(error?.respond?.message, 3);
