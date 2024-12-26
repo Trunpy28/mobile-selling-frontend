@@ -45,7 +45,13 @@ const Users = () => {
 
     const columns = [
         {
-            title: 'Avatar',
+            title: 'STT',
+            dataIndex: 'no',
+            key: 'no',
+            render: (text, record, index) => <strong>{index + 1}</strong>,
+        },
+        {
+            title: 'Ảnh đại diện',
             dataIndex: 'avatarUrl',
             render: (text) => (
                 <img
@@ -56,19 +62,19 @@ const Users = () => {
             ),
         },
         {
-            title: 'Name',
+            title: 'Tên người dùng',
             dataIndex: 'name',
         },
         {
-            title: 'Email',
+            title: 'Email người dùng',
             dataIndex: 'email',
         },
         {
-            title: 'Phone',
+            title: 'Số điện thoại',
             dataIndex: 'phoneNumber',
         },
         {
-            title: 'Role',
+            title: 'Vai trò',
             dataIndex: 'role',
             filters: [
                 {
@@ -84,7 +90,7 @@ const Users = () => {
             onFilter: (value, record) => record.name.indexOf(value) === 0,
         },
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: '20px' }}>

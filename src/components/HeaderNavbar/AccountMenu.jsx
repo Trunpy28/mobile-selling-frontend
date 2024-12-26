@@ -20,8 +20,6 @@ function AccountMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(user);
-
   // Xử lý đăng xuất
   const handleLogout = async () => {
     try {
@@ -56,7 +54,7 @@ function AccountMenu() {
       label: (
         <span
           className="flex items-center font-bold text-black text-lg py-3 px-3 space-x-2"
-          onClick={() => navigate("/user/orders")}
+          onClick={() => navigate("/my-orders")}
         >
           <ShoppingCartOutlined className="text-green-500 text-xl" />
           <span>Đơn hàng của tôi</span>
@@ -94,7 +92,7 @@ function AccountMenu() {
   ];
 
   return (
-    <div className="h-full flex items-center">
+    <div className="h-full flex items-center cursor-pointer">
       {user?.accessToken ? (
         <div className="flex gap-5">
           <Badge

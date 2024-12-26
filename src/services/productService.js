@@ -65,9 +65,8 @@ const productService = {
 
   updateProduct: async (productId, product, images) => {
     const URL_BACKEND = `${apiUrl}/product/update/${productId}`;
-    const formData = new FormData();
 
-    formData.append('brand', product.brand);
+    const formData = new FormData();
     formData.append('brand', product.brand);
     formData.append('name', product.name);
     formData.append('color', product.color);
@@ -75,18 +74,23 @@ const productService = {
     formData.append('price', product.price);
     formData.append('countInStock', product.countInStock);
     formData.append('description', product.description);
+
     images.forEach((image) => {
-      formData.append('imageUrl', image.originFileObj || image.url);
+      if (image instanceof File) {
+        formData.append('imageUrl', image);
+      } else {
+        formData.append('imageUrl', image);
+      }
     });
 
-    const res = await axiosJWT.put(URL_BACKEND, formData, {
+    const res = await axiosJWT.patch(URL_BACKEND, formData, {
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
-        'Content-Type': 'multipart/form-data',
       },
     });
     return res.data;
   },
+
 
   deleteProduct: async (productId) => {
     const URL_BACKEND = `${apiUrl}/product/delete/${productId}`;

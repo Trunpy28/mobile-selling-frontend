@@ -10,11 +10,11 @@ const productDetailService = {
 
     updateProductDetail: async (productId, specifications) => {
         const URL_BACKEND = `${apiUrl}/product-detail/update/${productId}`;
-        const res = await axios.put(URL_BACKEND, specifications,
+        const res = await axios.patch(URL_BACKEND, specifications,
             {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem("access_token"))}`,
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }
         );

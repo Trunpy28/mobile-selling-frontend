@@ -18,7 +18,6 @@ const Brands = () => {
     const [editForm] = Form.useForm();
     const [form] = Form.useForm();
 
-
     const fetchBrands = useCallback(async () => {
         setLoading(true);
         try {
@@ -40,17 +39,13 @@ const Brands = () => {
         setEditingBrand(brand);
         setEditingFile(null);
 
-        // Set giá trị của form
         editForm.setFieldsValue({
             name: brand.name,
             description: brand.description,
             logoUrl: brand.logoUrl,
         });
-
         setIsEditModalOpen(true);
     };
-
-
 
     const handleDelete = (brandId) => {
         try {
@@ -69,13 +64,11 @@ const Brands = () => {
             if (!file) {
                 throw new Error("Vui lòng thêm logo thương hiệu!");
             }
-
             const newBrand = {
                 name: values.name,
                 description: values.description,
                 logoUrl: file
             };
-
             const response = await brandService.createBrand(newBrand, file);
             console.log("Response:", response);
 
@@ -94,18 +87,15 @@ const Brands = () => {
     const onEditFinish = async (values) => {
         try {
             setIsUpdating(true);
-
             const updatedData = {
                 name: values.name,
                 description: values.description,
             };
-
             if (editingFile) {
                 updatedData.logoUrl = editingFile;
             } else {
                 updatedData.logoUrl = editingBrand.logoUrl;
             }
-
             await brandService.updateBrand(editingBrand._id, updatedData, editingFile);
 
             message.success("Cập nhật thương hiệu thành công!");
@@ -118,34 +108,36 @@ const Brands = () => {
         }
     };
 
-
     const handleUploadChange = ({ file }) => {
         setFile(file);
     };
 
     const columns = [
         {
-            title: 'No.',
+            title: 'STT',
             dataIndex: 'no',
-            render: (text, record, index) => index + 1,
+            render: (text, record, index) => <strong>{index + 1}</strong>,
+            width: 50,
         },
         {
             title: 'Logo',
             dataIndex: 'logoUrl',
             render: (text) => <img src={text} alt="product" style={{ width: 50 }} />,
+            width: 80,
         },
         {
-            title: 'Name',
+            title: 'Tên thương hiệu',
             dataIndex: 'name',
+            width: 150
         },
 
         {
-            title: 'Description',
+            title: 'Mô tả',
             dataIndex: 'description',
         },
 
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "20px" }}>
@@ -166,6 +158,7 @@ const Brands = () => {
                     </Popconfirm>
                 </div>
             ),
+            width: 120
         },
     ];
 

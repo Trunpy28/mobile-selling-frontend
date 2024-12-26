@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, InputNumber, Row, Select, Upload, Spin } from 'antd';
+import { Button, Col, Form, Input, InputNumber, Row, Select, Upload, Spin, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useEffect, useState } from 'react';
 import brandService from '../../services/brandService';
@@ -80,11 +80,13 @@ const ProductDetail = () => {
             const oldImages = fileList
                 .filter((file) => file.url)
                 .map((file) => file.url);
+
             const newImages = fileList
                 .filter((file) => file.originFileObj)
                 .map((file) => file.originFileObj);
 
             const images = [...oldImages, ...newImages];
+
             await productService.updateProduct(
                 productId,
                 {
@@ -94,16 +96,15 @@ const ProductDetail = () => {
                 images
             );
 
+            message.success('Sản phẩm đã được cập nhật thành công!');
             navigate('/admin/products');
         } catch (error) {
             console.error('Error updating product:', error);
+            message.error('Cập nhật sản phẩm thất bại!');
         } finally {
             setLoading(false);
         }
     };
-
-
-
 
     return (
         <div className='flex'>

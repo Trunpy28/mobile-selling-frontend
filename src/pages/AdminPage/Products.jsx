@@ -63,13 +63,13 @@ const Products = () => {
 
     const columns = [
         {
-            title: 'No.',
+            title: 'STT',
             dataIndex: 'no',
             key: 'no',
-            render: (text, record, index) => index + 1,
+            render: (text, record, index) => <strong>{index + 1}</strong>,
         },
         {
-            title: 'Image',
+            title: 'Hình ảnh',
             dataIndex: 'imageUrl',
             key: 'image',
             render: (text) => {
@@ -78,17 +78,17 @@ const Products = () => {
             },
         },
         {
-            title: 'Name',
+            title: 'Tên sản phẩm',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: 'Color',
+            title: 'Màu sắc',
             dataIndex: 'color',
             key: 'color',
         },
         {
-            title: 'Price',
+            title: 'Giá đã giảm',
             dataIndex: 'price',
             render: (text, record, index, action) => {
                 if (text)
@@ -98,7 +98,7 @@ const Products = () => {
             },
         },
         {
-            title: 'Original Price',
+            title: 'Giá gốc',
             dataIndex: 'originalPrice',
             render: (text, record, index, action) => {
                 if (text)
@@ -109,12 +109,12 @@ const Products = () => {
         },
 
         {
-            title: 'Quantity',
+            title: 'Số lượng',
             dataIndex: 'countInStock',
         },
 
         {
-            title: 'Action',
+            title: 'Hành động',
             key: 'action',
             render: (_, record) => (
                 <div style={{ display: "flex", gap: "20px" }}>
