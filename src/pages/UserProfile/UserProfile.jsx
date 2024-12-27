@@ -43,12 +43,12 @@ function UserProfile() {
   // Lấy danh sách tỉnh, quận và phường dựa trên trạng thái
   const cities = addressVietNam;
   const districts =
-    address.city &&
-    cities.find((city) => city.name === address.city)?.districts;
+    address.city ?
+    cities.find((city) => city.name === address.city)?.districts : [];
 
   const wards =
-    address.district &&
-    districts?.find((district) => district.name === address.district)?.wards;
+    address.district ?
+    districts?.find((district) => district.name === address.district)?.wards : [];
 
   // Xử lý khi chọn tỉnh
   const handleCityChange = (value) => {

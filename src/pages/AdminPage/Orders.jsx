@@ -45,7 +45,7 @@ const Orders = () => {
   const editOrderMutation = useMutation({
     mutationFn: async ({ orderId, data }) => {
       console.log(orderId, data);
-      
+
       const accessToken = handleGetAccessToken();
       return await orderService.changeOrderStatus(accessToken, orderId, data);
     },
@@ -82,7 +82,7 @@ const Orders = () => {
 
   const handleEditOrder = (record) => {
     setCurrentOrder(record);
-    
+
     form.setFieldsValue({
       shippingStatus: record.order.shippingStatus,
       paymentStatus: record.payment.paymentStatus,
@@ -93,7 +93,7 @@ const Orders = () => {
   const handleSave = async () => {
     try {
       const values = await form.validateFields();
-      
+
       await editOrderMutation.mutateAsync({
         orderId: currentOrder.order._id,
         data: values,
@@ -137,7 +137,7 @@ const Orders = () => {
         if (text === "Pending") color = "orange";
         else if (text === "Shipping") color = "blue";
         else if (text === "Completed") color = "green";
-  
+
         return <Tag color={color}>{statusMap[text] || "Không xác định"}</Tag>;
       },
     },
@@ -150,7 +150,11 @@ const Orders = () => {
           Pending: "Chưa thanh toán",
           Completed: "Đã thanh toán",
         };
-        return <Tag color={text === "Pending" ? "red" : "green"}>{paymentMap[text] || "Không xác định"}</Tag>;
+        return (
+          <Tag color={text === "Pending" ? "red" : "green"}>
+            {paymentMap[text] || "Không xác định"}
+          </Tag>
+        );
       },
     },
     {
@@ -197,25 +201,21 @@ const Orders = () => {
       key: "action",
       align: "center",
       render: (_, record) => (
-        <div style={{ display: "flex", justifyContent: "center", gap: "16px" }}>
-          <Button
-            type="primary"
-            onClick={() => handleEditOrder(record)}
-            icon={<EditOutlined />}
-            style={{ backgroundColor: "#1890ff" }}
-          >
-            Sửa
-          </Button>
+        <div style={{ display: "flex", gap: "20px" }}>
+          <EditOutlined
+            onClick={() => {
+              handleEditOrder(record);
+            }}
+            style={{ cursor: "pointer", color: "orange" }}
+          />
           <Button
             type="danger"
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined style={{ color: "red" }} />}
             onClick={() => {
               setOrderToDelete(record.order._id);
               setIsDeleteModalOpen(true);
             }}
-          >
-            Xóa
-          </Button>
+          />
         </div>
       ),
     },
@@ -243,7 +243,8 @@ const Orders = () => {
           <Form.Item
             name="shippingStatus"
             label="Trạng thái vận chuyển"
-            rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}>
+            rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}
+          >
             <Select>
               <Select.Option value="Pending">Chờ xử lý</Select.Option>
               <Select.Option value="Shipping">Đang giao hàng</Select.Option>
@@ -253,7 +254,8 @@ const Orders = () => {
           <Form.Item
             name="paymentStatus"
             label="Trạng thái thanh toán"
-            rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}>
+            rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}
+          >
             <Select>
               <Select.Option value="Pending">Chưa thanh toán</Select.Option>
               <Select.Option value="Completed">Đã thanh toán</Select.Option>
