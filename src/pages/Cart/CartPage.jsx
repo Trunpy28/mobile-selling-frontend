@@ -66,12 +66,12 @@ const CartPage = () => {
   });
 
   const districts =
-    address.city &&
-    addressVietNam.find((city) => city.name === address.city)?.districts;
+    address.city ?
+    addressVietNam.find((city) => city.name === address.city)?.districts : [];
 
   const wards =
-    address.district &&
-    districts?.find((district) => district.name === address.district)?.wards;
+    address.district ?
+    districts?.find((district) => district.name === address.district)?.wards : [];
 
   const handleCityChange = (value) => {
     setAddress({
